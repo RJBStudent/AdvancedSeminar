@@ -5,17 +5,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public float playerSpeed;
-    public float xMax, xMin, yMax, yMin;
 
     public float noiseLevel;
 
     float xDirection, yDirection;
     bool hasHuman = false;
-
+    bool inUFOArea = false;
+    bool canInteract = false;
     
+    GameObject InteractableObject;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -23,8 +24,8 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
     {
         RecieveInput();
+        Interact();
         PlayerMove();
-        PlayerLimit();
        
     }
 
@@ -41,27 +42,66 @@ public class PlayerMovement : MonoBehaviour {
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(xDirection * playerSpeed, yDirection * playerSpeed);
     }
 
-    void PlayerLimit()
+    void Interact()
     {
-        if(gameObject.transform.position.x < xMin)
-        {
-            gameObject.transform.position = new Vector2(xMin, transform.position.y);
-
-        }
-        else if (gameObject.transform.position.x > xMax)
-        {
-            gameObject.transform.position = new Vector2(xMax, transform.position.y);
-        }
 
 
-        if (gameObject.transform.position.y > yMax)
+        if(canInteract == true)
         {
-            gameObject.transform.position = new Vector2(transform.position.x, yMax);
-        }
-        else if (gameObject.transform.position.y < yMin)
-        {
-            gameObject.transform.position = new Vector2(transform.position.x, yMin);
+           
+            if (Input.GetButtonDown("Interact"))
+            {
+                Debug.Log("Interact");
+                if(InteractableObject == null)
+                {
+
+                }
+                else if (InteractableObject.tag == "Human" && !hasHuman)
+                {
+                    hasHuman = true;
+                    canInteract = false;
+                    InteractableObject.SetActive(false);
+                }
+                else if (hasHuman)
+                {
+                    if (inUFOArea)
+                    {
+                        Destroy(InteractableObject);
+                        hasHuman = false;
+                    }
+
+                }
+            }
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Enter");
+        if (collision.gameObject.tag == "Human")
+        {
+            canInteract = true;
+            InteractableObject = collision.gameObject;
+        }
+        if (collision.gameObject.tag == "UFO_Area")
+        {
+            inUFOArea = true;
+            canInteract = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("Exit");
+        if (collision.gameObject.tag == "Human")
+        {
+            canInteract = false;
+            InteractableObject = null;
+        }
+        if(collision.gameObject.tag == "UFO_Area")
+        {
+            inUFOArea = false;
+            canInteract = false;
+        }
+    }
 }

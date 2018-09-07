@@ -5,7 +5,8 @@ using UnityEngine;
 public class RoundManagerScript : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		
 	}
 	
