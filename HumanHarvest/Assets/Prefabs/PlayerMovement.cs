@@ -8,16 +8,23 @@ public class PlayerMovement : MonoBehaviour {
 
     public float noiseLevel;
 
+    public GameObject InteractButton;
+
     float xDirection, yDirection;
+    float lastX, lastY;
     bool hasHuman = false;
     bool inUFOArea = false;
     bool canInteract = false;
     
     GameObject InteractableObject;
+    Animator anim;
+   
+    
 
     // Use this for initialization
     void Start () {
-		
+        InteractButton.SetActive(false);
+        anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -31,10 +38,29 @@ public class PlayerMovement : MonoBehaviour {
 
     void RecieveInput()
     {
+        
+
         xDirection = Input.GetAxis("Horizontal");
         yDirection = Input.GetAxis("Vertical");
 
+        if (xDirection == 0f && yDirection == 0f)
+        {
+            anim.SetFloat("LastY", lastY);
+            anim.SetFloat("LastX", lastX);
+            anim.SetBool("Move", false);
+
+        }
+        else
+        {
+                lastX = xDirection;
+                lastY = yDirection;
+                anim.SetBool("Move", true);
+        }
+        anim.SetFloat("VelocityY", yDirection);
+        anim.SetFloat("VelocityX", xDirection);
+
         noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 2;
+        
     }
 
     void PlayerMove()
@@ -44,11 +70,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Interact()
     {
-
-
         if(canInteract == true)
         {
-           
             if (Input.GetButtonDown("Interact"))
             {
                 Debug.Log("Interact");
@@ -61,6 +84,7 @@ public class PlayerMovement : MonoBehaviour {
                     hasHuman = true;
                     canInteract = false;
                     InteractableObject.SetActive(false);
+                    InteractButton.SetActive(false);
                 }
                 else if (hasHuman)
                 {
@@ -68,6 +92,7 @@ public class PlayerMovement : MonoBehaviour {
                     {
                         Destroy(InteractableObject);
                         hasHuman = false;
+                        InteractButton.SetActive(false);
                     }
 
                 }
@@ -80,13 +105,21 @@ public class PlayerMovement : MonoBehaviour {
         Debug.Log("Enter");
         if (collision.gameObject.tag == "Human")
         {
+            if (!hasHuman)
+            { 
             canInteract = true;
             InteractableObject = collision.gameObject;
+            InteractButton.SetActive(true);
+            }
         }
         if (collision.gameObject.tag == "UFO_Area")
         {
             inUFOArea = true;
             canInteract = true;
+            if (hasHuman)
+            {
+                InteractButton.SetActive(true);
+            }
         }
     }
 
@@ -95,13 +128,23 @@ public class PlayerMovement : MonoBehaviour {
         Debug.Log("Exit");
         if (collision.gameObject.tag == "Human")
         {
-            canInteract = false;
-            InteractableObject = null;
+            if (!hasHuman)
+            {
+                canInteract = false;
+                InteractableObject = null;
+                InteractButton.SetActive(false);
+            }
         }
         if(collision.gameObject.tag == "UFO_Area")
         {
             inUFOArea = false;
             canInteract = false;
+            if (hasHuman)
+            {
+                InteractButton.SetActive(false);
+            }
         }
     }
+
+
 }
