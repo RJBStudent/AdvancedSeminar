@@ -306,8 +306,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Prefabs\PlayerMovement.cs" />
+    <Compile Include="Assets\Script\HumanScript.cs" />
+    <Compile Include="Assets\Script\PlayerMovement.cs" />
     <Compile Include="Assets\Script\RoundManagerScript.cs" />
+    <Compile Include="Assets\Script\TrashcanScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Human
   - UFO_Area
+  - Trashcan
   layers:
   - Default
   - TransparentFX
