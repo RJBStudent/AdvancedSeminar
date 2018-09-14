@@ -1,0 +1,2 @@
+C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\UnityEditor.StandardEvents.csprojResolveAssemblyReference.cache
+C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\UnityEditor.StandardEvents.csproj.CoreCompileInputs.cache

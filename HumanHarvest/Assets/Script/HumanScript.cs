@@ -8,11 +8,11 @@ public class HumanScript : MonoBehaviour
     public float speed = 1f;
 
     public GameObject[] trashcanList;
-    public GameObject currentTrashTarget;
-
-    
+    public GameObject currentTrashTarget;    
 
     Vector2 targetDirection;
+    Rigidbody2D rb;
+    public LayerMask lMask;
 
     // Use this for initialization
     void Start()
@@ -37,14 +37,52 @@ public class HumanScript : MonoBehaviour
                 }
             }
         }
+        targetDirection = currentTrashTarget.transform.position - transform.position;
+        targetDirection.Normalize();
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        
         UpdateClosest();
+        CheckWall();        
         Move();
+       
+    }
+
+    void CheckWall()
+    {
+        Vector2 newTarget;
+        for(int i = -2; i < 3; i++)
+        {
+            float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
+            currentAngle *= Mathf.Rad2Deg;
+            currentAngle += i * 10;
+            currentAngle *= Mathf.Deg2Rad;
+            newTarget = new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle));
+
+            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (new Vector3(newTarget.x, newTarget.y, 0)*2), new Color(255, 0, 0), 0f);
+
+            RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, newTarget, 2, lMask.value);
+            if (hit)
+            {
+
+                Vector3 hitPerp = hit.normal;
+                hitPerp = Vector3.Normalize(hitPerp);
+                targetDirection = new Vector2(hitPerp.y, hitPerp.x);
+                i = -2;
+            }
+
+            // Vector2 currentRaycastDirection = currentAngle + (i * 30);
+
+            // RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, targetDirection, 4, 8);    
+        }
+
+        
+
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -63,11 +101,8 @@ public class HumanScript : MonoBehaviour
 
     void Move()
     {
-        targetDirection = currentTrashTarget.transform.position - transform.position;
-        targetDirection.Normalize();
 
         targetDirection /= speed;
-
         gameObject.transform.position = new Vector3(gameObject.transform.position.x+ targetDirection.x, gameObject.transform.position.y + targetDirection.y, gameObject.transform.position.z);
     }
 

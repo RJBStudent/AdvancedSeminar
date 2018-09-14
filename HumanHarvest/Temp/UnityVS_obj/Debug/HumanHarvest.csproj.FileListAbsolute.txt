@@ -1,0 +1,2 @@
+C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\HumanHarvest.csprojResolveAssemblyReference.cache
+C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\HumanHarvest.csproj.CoreCompileInputs.cache
