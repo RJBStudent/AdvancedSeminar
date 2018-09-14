@@ -56,11 +56,11 @@ public class HumanScript : MonoBehaviour
     void CheckWall()
     {
         Vector2 newTarget;
-        for(int i = -2; i < 3; i++)
+        for(int i = -1; i < 2; i++)
         {
             float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
             currentAngle *= Mathf.Rad2Deg;
-            currentAngle += i * 10;
+            currentAngle += i * 20;
             currentAngle *= Mathf.Deg2Rad;
             newTarget = new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle));
 
@@ -73,7 +73,7 @@ public class HumanScript : MonoBehaviour
                 Vector3 hitPerp = hit.normal;
                 hitPerp = Vector3.Normalize(hitPerp);
                 targetDirection = new Vector2(hitPerp.y, hitPerp.x);
-                i = -2;
+              
             }
 
             // Vector2 currentRaycastDirection = currentAngle + (i * 30);

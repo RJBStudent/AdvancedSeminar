@@ -71,6 +71,9 @@ MonoBehaviour:
   speed: 10
   trashcanList: []
   currentTrashTarget: {fileID: 0}
+  lMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!212 &212200122968367768
 SpriteRenderer:
   m_ObjectHideFlags: 1

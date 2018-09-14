@@ -1,2 +1,0 @@
-C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\Unity.PackageManagerUI.Editor.csprojResolveAssemblyReference.cache
-C:\Users\361rj\Documents\GitHub\AdvancedSeminar\AdvancedSeminar\HumanHarvest\Temp\UnityVS_obj\Debug\Unity.PackageManagerUI.Editor.csproj.CoreCompileInputs.cache
