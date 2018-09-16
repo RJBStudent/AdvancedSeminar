@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour {
                     canInteract = false;
                     InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
                     InteractButton.SetActive(false);
+                    gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
                 }
                 else if (hasHuman)
                 {
@@ -93,6 +94,7 @@ public class PlayerMovement : MonoBehaviour {
                         //Destroy(InteractableObject);
                         hasHuman = false;
                         InteractButton.SetActive(false);
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
                     }
 
                 }

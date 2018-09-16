@@ -60,19 +60,37 @@ public class HumanScript : MonoBehaviour
         {
             float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
             currentAngle *= Mathf.Rad2Deg;
-            currentAngle += i * 20;
+            currentAngle += i * 25;
             currentAngle *= Mathf.Deg2Rad;
             newTarget = new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle));
 
-            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (new Vector3(newTarget.x, newTarget.y, 0)*2), new Color(255, 0, 0), 0f);
+            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (new Vector3(newTarget.x, newTarget.y, 0)* 2), new Color(255, 0, 0), 0f);
 
             RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, newTarget, 2, lMask.value);
             if (hit)
             {
-
                 Vector3 hitPerp = hit.normal;
-                hitPerp = Vector3.Normalize(hitPerp);
-                targetDirection = new Vector2(hitPerp.y, hitPerp.x);
+                //hitPerp = Vector3.Normalize(hitPerp);
+                
+                Vector3 targetPosLocal = currentTrashTarget.transform.InverseTransformPoint(transform.position);
+                if(targetPosLocal.x<0)
+                {
+                    targetDirection = new Vector2(Mathf.Abs(hitPerp.y), hitPerp.x);
+                }
+                else if(targetPosLocal.x> 0)
+                {
+                    targetDirection = new Vector2(-Mathf.Abs(hitPerp.y), hitPerp.x);
+                }
+
+                if (targetPosLocal.y < 0)
+                {
+                    targetDirection = new Vector2(hitPerp.y, Mathf.Abs(hitPerp.x));
+                }
+                else if (targetPosLocal.y > 0)
+                {
+                    targetDirection = new Vector2(hitPerp.y, -Mathf.Abs(hitPerp.x));
+                }
+               // Debug.Log(currentAngle*Mathf.Rad2Deg);
               
             }
 

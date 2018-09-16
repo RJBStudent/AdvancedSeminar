@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f7ab1837220de4fa7d1aa1a6847b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 7
   trashcanList: []
   currentTrashTarget: {fileID: 0}
   lMask:
