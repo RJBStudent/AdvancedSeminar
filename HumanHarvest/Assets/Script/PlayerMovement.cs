@@ -94,7 +94,9 @@ public class PlayerMovement : MonoBehaviour {
                         //Destroy(InteractableObject);
                         hasHuman = false;
                         InteractButton.SetActive(false);
-                        gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+                        RoundManagerScript.code.RemoveHuman();
+                        RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.HUMAN);
                     }
 
                 }
@@ -135,7 +137,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (collision.gameObject.GetComponent<TrashcanScript>().HasHuman)
             {
-
                 if (!hasHuman)
                 {
                     canInteract = false;
