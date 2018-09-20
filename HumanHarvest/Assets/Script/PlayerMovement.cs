@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
     bool hasHuman = false;
     bool inUFOArea = false;
     bool canInteract = false;
+    bool stillPenalty = false;
     
     GameObject InteractableObject;
     Animator anim;
@@ -30,6 +31,13 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (stillPenalty)
+        {
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+
+            return;
+        }
+            
         RecieveInput();
         Interact();
         PlayerMove();
@@ -77,18 +85,30 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.Log("Interact");
                 if(InteractableObject == null)
                 {
-
+                    Debug.Log("NOTHING");
+                    return;
                 }
                 else if (InteractableObject.tag == "Trashcan" && !hasHuman)
                 {
-                    hasHuman = true;
-                    canInteract = false;
-                    InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
-                    InteractButton.SetActive(false);
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                    if (!InteractableObject.GetComponent<TrashcanScript>().HasHuman)
+                    {
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                        //canInteract = false;
+                        //InteractButton.SetActive(false);
+                        StartCoroutine(TrashcanMiss());
+                    }
+                    else
+                    { 
+                        hasHuman = true;
+                        canInteract = false;
+                        InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
+                        InteractButton.SetActive(false);
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                    }
                 }
                 else if (hasHuman)
                 {
+                    Debug.Log("HasHuman");
                     if (inUFOArea)
                     {
                         //Destroy(InteractableObject);
@@ -109,15 +129,14 @@ public class PlayerMovement : MonoBehaviour {
         Debug.Log("Enter");
         if (collision.gameObject.tag == "Trashcan")
         {
-            if (collision.gameObject.GetComponent<TrashcanScript>().HasHuman)
+            if(!hasHuman)
             {
-                if (!hasHuman)
-                {
-                    canInteract = true;
-                    InteractableObject = collision.gameObject;
-                    InteractButton.SetActive(true);
-                }
+                canInteract = true;
+                InteractableObject = collision.gameObject;
+                InteractButton.SetActive(true);
             }
+               
+           
         }
         if (collision.gameObject.tag == "UFO_Area")
         {
@@ -125,6 +144,9 @@ public class PlayerMovement : MonoBehaviour {
             canInteract = true;
             if (hasHuman)
             {
+
+                InteractableObject = collision.gameObject;
+                Debug.Log("Has HUman");
                 InteractButton.SetActive(true);
             }
         }
@@ -134,16 +156,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         Debug.Log("Exit");
         if (collision.gameObject.tag == "Trashcan")
-        {
-            if (collision.gameObject.GetComponent<TrashcanScript>().HasHuman)
-            {
-                if (!hasHuman)
-                {
-                    canInteract = false;
-                    InteractableObject = null;
-                    InteractButton.SetActive(false);
-                }
-            }
+        {            
+                canInteract = false;
+                InteractableObject = null;
+                InteractButton.SetActive(false);
         }
         if(collision.gameObject.tag == "UFO_Area")
         {
@@ -151,10 +167,27 @@ public class PlayerMovement : MonoBehaviour {
             canInteract = false;
             if (hasHuman)
             {
+
+                InteractableObject = null;
                 InteractButton.SetActive(false);
             }
         }
     }
 
-
+    IEnumerator TrashcanMiss()
+    {
+        stillPenalty = true;
+        yield return new WaitForSeconds(3f);
+        stillPenalty = false;
+        canInteract = false;
+        InteractableObject = null;
+        if (!hasHuman)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+        }
+    }
 }

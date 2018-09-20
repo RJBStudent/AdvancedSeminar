@@ -479,7 +479,7 @@ MonoBehaviour:
   thePlayer: {fileID: 1422052920}
   humanPrefab: {fileID: 1000104542784442, guid: 22f8bab9e2f6e164f96742a4623d88cf,
     type: 2}
-  maxHumans: 5
+  maxHumans: 4
   spawnRadius: 5
   humanSpawnPoints:
   - {fileID: 797931367}
