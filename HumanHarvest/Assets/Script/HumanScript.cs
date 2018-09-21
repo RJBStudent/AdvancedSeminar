@@ -93,10 +93,7 @@ public class HumanScript : MonoBehaviour
                // Debug.Log(currentAngle*Mathf.Rad2Deg);
               
             }
-
-            // Vector2 currentRaycastDirection = currentAngle + (i * 30);
-
-            // RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, targetDirection, 4, 8);    
+            
         }
 
         
