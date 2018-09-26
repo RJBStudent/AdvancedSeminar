@@ -86,7 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e196bd75609d6394d84ef3e93f2f206f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  startNode: 0
+  speed: 12
   nodeLocations:
   - {fileID: 0}
   - {fileID: 0}
@@ -98,9 +99,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   nodeTargetRadius: 0
+  waitAtNode: 0
   fireRadius: 0
   cooldownTime: 0
   closestDistanceToPlayer: 0
+  shouldNotChaseDistance: 0
   thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
   lMask:
     serializedVersion: 2

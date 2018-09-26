@@ -27,7 +27,6 @@ public class NoiseListenerScript : MonoBehaviour {
         playerNoiseLevel *= listenMultiplier;
         if(playerNoiseLevel < listenVolume)
         {
-            Debug.Log(listenMultiplier);
             return false;
         }
         return true;

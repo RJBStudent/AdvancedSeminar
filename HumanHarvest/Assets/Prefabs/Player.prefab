@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6cebcd6da080b40b280c2a0e920217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
+  playerSpeed: 7
   noiseLevel: 0
   InteractButton: {fileID: 1592952281795992}
 --- !u!212 &212667803444626342
