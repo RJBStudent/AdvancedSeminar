@@ -39,6 +39,7 @@ public class BulletScript : MonoBehaviour {
         {
             //Take Damage
             Debug.Log("OUCH");
+            collision.gameObject.GetComponent<PlayerMovement>().playerHit();
             Destroy(gameObject);
         }
         Debug.Log(collision.gameObject.name);

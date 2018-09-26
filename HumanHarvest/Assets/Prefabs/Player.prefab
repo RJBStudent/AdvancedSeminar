@@ -248,6 +248,9 @@ MonoBehaviour:
   playerSpeed: 7
   noiseLevel: 0
   InteractButton: {fileID: 1592952281795992}
+  health: 3
+  iFrameTime: 2
+  cantGetHit: 0
 --- !u!212 &212667803444626342
 SpriteRenderer:
   m_ObjectHideFlags: 1

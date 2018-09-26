@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -9,6 +10,9 @@ public class PlayerMovement : MonoBehaviour {
     public float noiseLevel;
 
     public GameObject InteractButton;
+
+    public int health = 3;
+    public float iFrameTime = 1f;
 
     float xDirection, yDirection;
     float lastX, lastY;
@@ -19,7 +23,9 @@ public class PlayerMovement : MonoBehaviour {
     
     GameObject InteractableObject;
     Animator anim;
-   
+
+    public bool cantGetHit;
+    
     
 
     // Use this for initialization
@@ -31,6 +37,11 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if(health <= 0)
+        {
+            //Smoothly Send Coroutine to UI manager that says game over
+            SceneManager.LoadScene("GameEndScene");
+        }
         if (stillPenalty)
         {
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -120,6 +131,24 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void playerHit()
+    {
+        if(!cantGetHit)
+        {
+            cantGetHit = true;
+            StartCoroutine(IFrames());
+        }
+    }
+
+    IEnumerator IFrames()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 0.5f);
+        health--;
+        yield return new WaitForSeconds(iFrameTime);
+        cantGetHit = false;
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 1);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
