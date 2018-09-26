@@ -45,9 +45,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void RecieveInput()
-    {
-        
-
+    {  
         xDirection = Input.GetAxis("Horizontal");
         yDirection = Input.GetAxis("Vertical");
 

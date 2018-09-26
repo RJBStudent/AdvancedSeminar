@@ -39,18 +39,15 @@ public class HumanScript : MonoBehaviour
         }
         targetDirection = currentTrashTarget.transform.position - transform.position;
         targetDirection.Normalize();
-
     }
 
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {        
         UpdateClosest();
         CheckWall();        
-        Move();
-       
+        Move();       
     }
 
     void CheckWall()
@@ -90,21 +87,15 @@ public class HumanScript : MonoBehaviour
                 {
                     targetDirection = new Vector2(hitPerp.y, -Mathf.Abs(hitPerp.x));
                 }
-               // Debug.Log(currentAngle*Mathf.Rad2Deg);
-              
-            }
-            
-        }
-
-        
-
+               // Debug.Log(currentAngle*Mathf.Rad2Deg);              
+            }            
+        }      
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Trashcan")
-        {
-           
+        {           
             if (!col.gameObject.GetComponent<TrashcanScript>().HasHuman)
             {
                 Debug.Log("EnteredTrash");
@@ -120,5 +111,4 @@ public class HumanScript : MonoBehaviour
         targetDirection /= speed;
         gameObject.transform.position = new Vector3(gameObject.transform.position.x+ targetDirection.x, gameObject.transform.position.y + targetDirection.y, gameObject.transform.position.z);
     }
-
 }

@@ -54,13 +54,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be783bdb4864b940bc018962de3e22a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 0}
+  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
   lMask:
     serializedVersion: 2
     m_Bits: 768
-  raycastAmmount: 0
-  distanceBetweenRaycasts: 0
-  viewDistance: 0
+  raycastAmmount: 3
+  distanceBetweenRaycasts: 10
+  viewDistance: 3
 --- !u!114 &114513858606117346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,9 +72,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba3fe391bed40594d9efb31fde2a9a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listenDistance: 0
-  thePlayer: {fileID: 0}
-  listenVolume: 1
+  listenDistance: 20
+  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
+  listenVolume: 0.75
 --- !u!114 &114690856657476670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -86,12 +86,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e196bd75609d6394d84ef3e93f2f206f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  thePlayer: {fileID: 0}
+  speed: 7
+  nodeLocations:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nodeTargetRadius: 0
+  fireRadius: 0
+  cooldownTime: 0
+  closestDistanceToPlayer: 0
+  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
   lMask:
     serializedVersion: 2
     m_Bits: 0
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 1440940658657820, guid: 018d9ef68cf01f94891751d7abd4a6c9,
+    type: 2}
 --- !u!212 &212915224679866320
 SpriteRenderer:
   m_ObjectHideFlags: 1

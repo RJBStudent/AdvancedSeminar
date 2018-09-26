@@ -14,8 +14,7 @@ public class NoiseListenerScript : MonoBehaviour {
     {
         Vector2 playerPos = thePlayer.transform.position;
         Vector2 curPos = gameObject.transform.position;
-
-        float distance = Vector2.Distance(playerPos, curPos);
+        float distance = Vector2.Distance(curPos, playerPos);
         float listenMultiplier = distance / listenDistance;
         float playerNoiseLevel = thePlayer.GetComponent<PlayerMovement>().noiseLevel;
 
@@ -24,9 +23,11 @@ public class NoiseListenerScript : MonoBehaviour {
             return false;
         }
         listenMultiplier -= 1;
+        listenMultiplier = Mathf.Abs(listenMultiplier);
         playerNoiseLevel *= listenMultiplier;
         if(playerNoiseLevel < listenVolume)
         {
+            Debug.Log(listenMultiplier);
             return false;
         }
         return true;
