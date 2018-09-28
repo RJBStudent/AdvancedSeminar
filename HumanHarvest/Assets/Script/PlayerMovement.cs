@@ -40,7 +40,8 @@ public class PlayerMovement : MonoBehaviour {
         if(health <= 0)
         {
             //Smoothly Send Coroutine to UI manager that says game over
-            SceneManager.LoadScene("GameEndScene");
+            //SceneManager.LoadScene("GameEndScene");
+            RoundManagerScript.code.GameEndTransition();
         }
         if (stillPenalty)
         {

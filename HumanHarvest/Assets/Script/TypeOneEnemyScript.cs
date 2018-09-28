@@ -194,11 +194,7 @@ public class TypeOneEnemyScript : MonoBehaviour {
         gameObject.transform.position = new Vector3(gameObject.transform.position.x + targetDirection.x, gameObject.transform.position.y + targetDirection.y, gameObject.transform.position.z);
 
     }
-
-    void DetectWall()
-    {
-        //same as human script except check in every search
-    }
+    
 
     IEnumerator patrolOnNode()
     {
@@ -279,5 +275,4 @@ public class TypeOneEnemyScript : MonoBehaviour {
             }            
         }      
     }
-
 }

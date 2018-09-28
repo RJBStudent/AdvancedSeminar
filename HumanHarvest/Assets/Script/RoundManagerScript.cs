@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RoundManagerScript : MonoBehaviour {
 
@@ -33,7 +34,7 @@ public class RoundManagerScript : MonoBehaviour {
     //UI variables
     public Text scoreText;
     public Text timerText;
-
+    public Text gameOverText;
 
     // Use this for initialization
     void Start ()
@@ -41,6 +42,7 @@ public class RoundManagerScript : MonoBehaviour {
         code = this;
         NewRound();
         scoreText.text = score.ToString();
+        gameOverText.color = new Color(gameOverText.color.r, gameOverText.color.b, gameOverText.color.g, 0);
     }
 	
 	// Update is called once per frame
@@ -111,6 +113,25 @@ public class RoundManagerScript : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    public void GameEndTransition()
+    {
+        Time.timeScale = 0;
+        StartCoroutine(TextTransition());
+    }
+
+    IEnumerator TextTransition()
+    {
+        for(float i = 0.1f; i < 1; i+=0.1f)
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
+            gameOverText.color = new Color(gameOverText.color.r, gameOverText.color.b, gameOverText.color.g, i);
+        }
+
+        yield return new WaitForSecondsRealtime(3f);
+
+        SceneManager.LoadScene("GameEndScene");
     }
 
 }

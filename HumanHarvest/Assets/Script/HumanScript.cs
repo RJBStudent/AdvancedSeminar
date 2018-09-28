@@ -68,19 +68,22 @@ public class HumanScript : MonoBehaviour
             {
                 Vector3 hitPerp = hit.normal;
                 //hitPerp = Vector3.Normalize(hitPerp);
+                //targetDirection.Normalize();
+                 //targetDirection += new Vector2(hitPerp.x, hitPerp.y);
+                
 
                 Vector3 targetPosLocal = currentTrashTarget.transform.InverseTransformPoint(transform.position);
                 if (targetPosLocal.x <= 0)
                 {
                     targetDirection = new Vector2(-Mathf.Abs(hitPerp.y), hitPerp.x);
                 }
-                else if (targetPosLocal.x >= 0)
+                else if (targetPosLocal.x < 0)
                 {
                     targetDirection = new Vector2(Mathf.Abs(hitPerp.y), hitPerp.x);
 
                 }
 
-                if (targetPosLocal.y <= 0)
+                if (targetPosLocal.y > 0)
                 {
                     targetDirection = new Vector2(targetDirection.x, -Mathf.Abs(hitPerp.x));
                 }
@@ -88,6 +91,7 @@ public class HumanScript : MonoBehaviour
                 {
                     targetDirection = new Vector2(targetDirection.x, Mathf.Abs(hitPerp.x));
                 }
+                
                 // Debug.Log(currentAngle*Mathf.Rad2Deg);              
             }
         }
