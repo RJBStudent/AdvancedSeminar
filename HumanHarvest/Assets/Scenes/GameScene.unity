@@ -345,6 +345,14 @@ Prefab:
       propertyPath: shouldNotChaseDistance
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4201920491818302, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620137105990400, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
   m_IsPrefabAsset: 0
@@ -775,6 +783,14 @@ Prefab:
       propertyPath: startNode
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4620137105990400, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201920491818302, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a65c63f1ae73542916eafd625cfa7e, type: 2}
   m_IsPrefabAsset: 0
@@ -1011,7 +1027,7 @@ MonoBehaviour:
   - {fileID: 12089541}
   requiredHumans: 0
   currentHumansHeld: 0
-  levelTimer: 30
+  levelTimer: 0
   scoreText: {fileID: 394658520}
   timerText: {fileID: 94058564}
   gameOverText: {fileID: 1654612345}

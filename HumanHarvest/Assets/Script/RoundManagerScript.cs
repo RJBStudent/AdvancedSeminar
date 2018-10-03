@@ -82,11 +82,7 @@ public class RoundManagerScript : MonoBehaviour {
     void UpdateTimer()
     {
         timerText.text = ((int)currentTime).ToString();
-        currentTime -= Time.deltaTime;
-        if(currentTime <= 0)
-        {
-            NewRound();
-        }
+        currentTime += Time.deltaTime;
     }
 
     void ResetField()

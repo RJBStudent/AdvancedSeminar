@@ -35,10 +35,18 @@ public class TypeOneEnemyScript : MonoBehaviour {
     public GameObject thePlayer;
     public LayerMask lMask;
 
+    public float xBounds;
+    public float yBounds;
+
 
 
     //Prefabs
     public GameObject bulletPrefab;
+    GameObject exclamationPrefab;
+    GameObject questionPrefab;
+
+    SpriteRenderer exclamationSpriteRenderer;
+    SpriteRenderer questionSpriteRenderer;
 
 
 	// Use this for initialization
@@ -48,14 +56,21 @@ public class TypeOneEnemyScript : MonoBehaviour {
         gameObject.transform.position = nodeLocations[targetNode].transform.position;
         targetLocation = nodeLocations[targetNode].transform.position;
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-
+        exclamationPrefab = transform.GetChild(1).gameObject;
+        questionPrefab = transform.GetChild(0).gameObject;
+        exclamationSpriteRenderer =  exclamationPrefab.GetComponent<SpriteRenderer>();
+        questionSpriteRenderer = questionPrefab.GetComponent<SpriteRenderer>();
+        exclamationSpriteRenderer.enabled = false; 
+        questionSpriteRenderer.enabled = false;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if(shootingAtPlayer)
+       if(shootingAtPlayer)
         {
+            exclamationSpriteRenderer.enabled = false;
+            ExclamationRender();
             return;
         }
         canHear = GetComponent<NoiseListenerScript>().ListenForSound();
@@ -72,15 +87,21 @@ public class TypeOneEnemyScript : MonoBehaviour {
 
         if (shouldChase)
         {
+            questionSpriteRenderer.enabled = false;
             ChaseTarget();
+            ExclamationRender();
         }
         else if (!moveToSound)
         {
             MoveToNode();
+            exclamationSpriteRenderer.enabled = false;
+            questionSpriteRenderer.enabled = false; 
         }
         else
         {
+            exclamationSpriteRenderer.enabled = false;
             MoveToNoise();
+            SeekingRender();
         }
     }
 
@@ -240,7 +261,7 @@ public class TypeOneEnemyScript : MonoBehaviour {
             currentAngle *= Mathf.Deg2Rad;
             newTarget = new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle));
 
-            //Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (new Vector3(newTarget.x, newTarget.y, 0)* 2), new Color(255, 0, 0), 0f);
+            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (new Vector3(newTarget.x, newTarget.y, 0)* 2), new Color(0, 0, 255), 0f);
 
             RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, newTarget, 2, lMask.value);
             if (hit)
@@ -274,5 +295,35 @@ public class TypeOneEnemyScript : MonoBehaviour {
                // Debug.Log(currentAngle*Mathf.Rad2Deg);              
             }            
         }      
+    }
+
+    void ExclamationRender()
+    {
+        exclamationPrefab.transform.position = transform.position;
+        Vector3 localPosition = thePlayer.transform.InverseTransformPoint(gameObject.transform.position);
+       
+        if((localPosition.x < xBounds || localPosition.x > -xBounds) || (localPosition.y > -yBounds || localPosition.y < yBounds))
+        {
+            //Debug.Log("Local " + localPosition);
+            return;
+        }
+        exclamationSpriteRenderer.enabled = true;
+       // 
+
+        exclamationPrefab.transform.position = new Vector3(Mathf.Clamp(exclamationPrefab.transform.position.x, thePlayer.transform.position.x - xBounds, thePlayer.transform.position.x + xBounds), Mathf.Clamp(exclamationPrefab.transform.position.y, thePlayer.transform.position.y- yBounds, thePlayer.transform.position.y + yBounds), 0);
+       // Debug.Log("New Pos " + exclamationPrefab.transform.position);
+    }
+
+    void SeekingRender()
+    {
+        questionPrefab.transform.position = transform.position;
+        Vector3 localPosition = thePlayer.transform.InverseTransformPoint(gameObject.transform.position);
+        Debug.Log("Local " + localPosition);
+      
+           questionSpriteRenderer.enabled = true;
+        //Vector3 localPosition = transform.InverseTransformVector(thePlayer.gameObject.transform.position);
+
+        questionSpriteRenderer.transform.position = new Vector3(Mathf.Clamp(exclamationPrefab.transform.position.x, thePlayer.transform.position.x - xBounds, thePlayer.transform.position.x + xBounds), Mathf.Clamp(exclamationPrefab.transform.position.y, thePlayer.transform.position.y - yBounds, thePlayer.transform.position.y + yBounds), 0);
+        Debug.Log("New Pos " + exclamationPrefab.transform.position);
     }
 }

@@ -53,6 +53,7 @@ public class HumanScript : MonoBehaviour
     void CheckWall()
     {
         Vector2 newTarget;
+       
         for (int i = -1; i < 2; i++)
         {
             float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
