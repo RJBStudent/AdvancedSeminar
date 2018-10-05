@@ -5,7 +5,9 @@ using UnityEngine;
 public class HumanScript : MonoBehaviour
 {
 
-    public float speed = 1f;
+    public float baseSpeed = 1f;
+    public float runningSpeed = 0f;
+    float currentSpeed;
 
     public GameObject[] trashcanList;
     public GameObject currentTrashTarget;
@@ -13,12 +15,19 @@ public class HumanScript : MonoBehaviour
     Vector2 targetDirection;
     Rigidbody2D rb;
     public LayerMask lMask;
+    Transform thePlayerPosition;
+    public float playerMaxDistance;
+    bool isRunningAway = false;
+    float runAwayRadius;
 
     // Use this for initialization
     void Start()
     {
+        thePlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         trashcanList = GameObject.FindGameObjectsWithTag("Trashcan");
         UpdateClosest();
+        runAwayRadius = playerMaxDistance * 2;
+        currentSpeed = baseSpeed;
     }
 
     void UpdateClosest()
@@ -46,7 +55,8 @@ public class HumanScript : MonoBehaviour
     void Update()
     {
         UpdateClosest();
-        CheckWall();
+        MoveAwayFromPlayer();
+        //CheckWall();
         Move();
     }
 
@@ -104,17 +114,41 @@ public class HumanScript : MonoBehaviour
         {
             if (!col.gameObject.GetComponent<TrashcanScript>().HasHuman)
             {
-                Debug.Log("EnteredTrash");
+
                 col.gameObject.GetComponent<TrashcanScript>().HasHuman = true;
                 Destroy(gameObject);
             }
         }
     }
 
+    void MoveAwayFromPlayer()
+    {
+        Vector2 distance = thePlayerPosition.position - transform.position;
+        if(isRunningAway)
+        {
+            if(distance.magnitude > runAwayRadius)
+            {
+                isRunningAway = false;
+                currentSpeed = baseSpeed;
+                return;
+            }
+            targetDirection = transform.position - thePlayerPosition.position;
+            targetDirection.Normalize();
+            currentSpeed = runningSpeed;
+            
+        }
+        else if(distance.magnitude < playerMaxDistance)
+        {
+            targetDirection = transform.position - thePlayerPosition.position;
+            targetDirection.Normalize();
+            isRunningAway = true;
+           currentSpeed = runningSpeed;
+        }
+    }
+
     void Move()
     {
-
-        targetDirection /= speed;
+        targetDirection /= currentSpeed;
         gameObject.transform.position = new Vector3(gameObject.transform.position.x + targetDirection.x, gameObject.transform.position.y + targetDirection.y, gameObject.transform.position.z);
     }
 }

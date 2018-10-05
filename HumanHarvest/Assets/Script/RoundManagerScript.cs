@@ -42,7 +42,8 @@ public class RoundManagerScript : MonoBehaviour {
         code = this;
         NewRound();
         scoreText.text = score.ToString();
-        gameOverText.color = new Color(gameOverText.color.r, gameOverText.color.b, gameOverText.color.g, 0);
+        gameOverText.color = new Color(gameOverText.color.r, gameOverText.color.b, gameOverText.color.g, 0);        
+
     }
 	
 	// Update is called once per frame
@@ -75,7 +76,6 @@ public class RoundManagerScript : MonoBehaviour {
 
     void SpawnHuman(Transform spawnTransform)
     {
-        Debug.Log("Spawned Human at " + spawnTransform.position);
         GameObject newHuman = (GameObject)Instantiate(humanPrefab, spawnTransform);
     }
 

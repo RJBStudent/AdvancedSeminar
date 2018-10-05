@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 95831357481278564}
   m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,7 +130,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -248,6 +248,8 @@ MonoBehaviour:
   playerSpeed: 7
   noiseLevel: 0
   InteractButton: {fileID: 1592952281795992}
+  humanPrefab: {fileID: 1000104542784442, guid: 22f8bab9e2f6e164f96742a4623d88cf,
+    type: 2}
   health: 3
   iFrameTime: 2
   cantGetHit: 0

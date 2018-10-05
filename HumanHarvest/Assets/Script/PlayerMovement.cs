@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     public float noiseLevel;
 
     public GameObject InteractButton;
+    public GameObject humanPrefab;
 
     public int health = 3;
     public float iFrameTime = 1f;
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour {
         if (stillPenalty)
         {
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            noiseLevel = 2;
 
             return;
         }
@@ -113,7 +115,8 @@ public class PlayerMovement : MonoBehaviour {
                         canInteract = false;
                         InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
                         InteractButton.SetActive(false);
-                        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                        
+                        anim.SetBool("Has Human", true);
                     }
                 }
                 else if (hasHuman)
@@ -123,6 +126,7 @@ public class PlayerMovement : MonoBehaviour {
                     {
                         //Destroy(InteractableObject);
                         hasHuman = false;
+                        anim.SetBool("Has Human", false);
                         InteractButton.SetActive(false);
                         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
                         RoundManagerScript.code.RemoveHuman();
@@ -138,6 +142,14 @@ public class PlayerMovement : MonoBehaviour {
     {
         if(!cantGetHit)
         {
+            if(hasHuman)
+            {
+                GameObject newHuman = (GameObject)Instantiate(humanPrefab, transform.position, Quaternion.identity, GameObject.Find("RoundManager").transform);
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newHuman.GetComponent<Collider2D>());
+                hasHuman = false;
+                anim.SetBool("Has Human", false);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+            }
             cantGetHit = true;
             StartCoroutine(IFrames());
         }
@@ -154,7 +166,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enter");
+
         if (collision.gameObject.tag == "Trashcan")
         {
             if(!hasHuman)
@@ -172,9 +184,7 @@ public class PlayerMovement : MonoBehaviour {
             canInteract = true;
             if (hasHuman)
             {
-
                 InteractableObject = collision.gameObject;
-                Debug.Log("Has HUman");
                 InteractButton.SetActive(true);
             }
         }
@@ -182,7 +192,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Exit");
         if (collision.gameObject.tag == "Trashcan")
         {            
                 canInteract = false;

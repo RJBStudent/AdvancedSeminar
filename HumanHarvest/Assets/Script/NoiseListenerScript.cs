@@ -14,7 +14,7 @@ public class NoiseListenerScript : MonoBehaviour {
     {
         Vector2 playerPos = thePlayer.transform.position;
         Vector2 curPos = gameObject.transform.position;
-        float distance = Vector2.Distance(curPos, playerPos);
+        float distance = Vector2.Distance(playerPos,curPos);
         float listenMultiplier = distance / listenDistance;
         float playerNoiseLevel = thePlayer.GetComponent<PlayerMovement>().noiseLevel;
 

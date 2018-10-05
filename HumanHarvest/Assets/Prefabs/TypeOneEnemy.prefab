@@ -165,9 +165,12 @@ MonoBehaviour:
   closestDistanceToPlayer: 0
   shouldNotChaseDistance: 0
   thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
-  lMask:
+  playerAndWallLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 256
   xBounds: 8
   yBounds: 4.5
   bulletPrefab: {fileID: 1440940658657820, guid: 018d9ef68cf01f94891751d7abd4a6c9,
