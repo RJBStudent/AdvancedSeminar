@@ -172,7 +172,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   xBounds: 8
-  yBounds: 4.5
+  yBounds: 3
   bulletPrefab: {fileID: 1440940658657820, guid: 018d9ef68cf01f94891751d7abd4a6c9,
     type: 2}
 --- !u!212 &212196712682237694

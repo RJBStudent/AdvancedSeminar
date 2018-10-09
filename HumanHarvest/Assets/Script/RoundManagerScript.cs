@@ -114,6 +114,7 @@ public class RoundManagerScript : MonoBehaviour {
     public void GameEndTransition()
     {
         Time.timeScale = 0;
+        ScoreManagerScript.code.UpdateHighScores(score, (int)currentTime);
         StartCoroutine(TextTransition());
     }
 
@@ -126,7 +127,7 @@ public class RoundManagerScript : MonoBehaviour {
         }
 
         yield return new WaitForSecondsRealtime(3f);
-
+        Time.timeScale = 1;
         SceneManager.LoadScene("GameEndScene");
     }
 

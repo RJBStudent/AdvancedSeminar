@@ -2,18 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManagerScript : MonoBehaviour {
+public class ScoreManagerScript : MonoBehaviour
+{
+    public static ScoreManagerScript code;
 
-    static float currentScore;
-    static float highScore;
+    int longestTime;
+    int scoreWithLongestTime;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    int bestScore;
+    int timeWithBestScore;
+
+    void Start()
+    {
+        code = this;
+        longestTime = PlayerPrefs.GetInt("LongestTime", 0);
+        scoreWithLongestTime = PlayerPrefs.GetInt("ScoreWithLongestTime", 0);
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        timeWithBestScore = PlayerPrefs.GetInt("TimeWithBestScore", 0);
+    }
+
+    public void UpdateHighScores(int currentScore, int currentTime)
+    {
+        if(currentScore > bestScore)
+        {
+            PlayerPrefs.SetInt("BestScore", currentScore);
+            PlayerPrefs.SetInt("TimeWithBestScore", currentTime);
+        }
+
+        if(currentTime > longestTime)
+        {
+            PlayerPrefs.SetInt("LongestTime", currentTime);
+            PlayerPrefs.SetInt("ScoreWithLongestTime", currentScore);
+        }
+        PlayerPrefs.SetInt("MostRecentTime", currentTime);
+        PlayerPrefs.SetInt("MostRecentScore", currentScore);
+    }
+
 }

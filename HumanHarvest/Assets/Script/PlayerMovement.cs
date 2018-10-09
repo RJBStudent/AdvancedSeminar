@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
@@ -14,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public int health = 3;
     public float iFrameTime = 1f;
+    public Text healthText;
 
     float xDirection, yDirection;
     float lastX, lastY;
@@ -33,7 +35,9 @@ public class PlayerMovement : MonoBehaviour {
     void Start () {
         InteractButton.SetActive(false);
         anim = GetComponent<Animator>();
-	}
+
+        healthText.text = "x" + health;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -159,6 +163,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 0.5f);
         health--;
+        healthText.text = "x" + health;
         yield return new WaitForSeconds(iFrameTime);
         cantGetHit = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 1);

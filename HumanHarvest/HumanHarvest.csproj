@@ -307,6 +307,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\BulletScript.cs" />
+    <Compile Include="Assets\Script\ButtonScripts.cs" />
+    <Compile Include="Assets\Script\EndSceneScript.cs" />
     <Compile Include="Assets\Script\HumanScript.cs" />
     <Compile Include="Assets\Script\NoiseListenerScript.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
