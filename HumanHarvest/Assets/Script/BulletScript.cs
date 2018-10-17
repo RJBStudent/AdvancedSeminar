@@ -38,11 +38,13 @@ public class BulletScript : MonoBehaviour {
         if(collision.gameObject.tag == "Player")
         {
             //Take Damage
-            Debug.Log("OUCH");
             collision.gameObject.GetComponent<PlayerMovement>().playerHit();
             Destroy(gameObject);
         }
-        Debug.Log(collision.gameObject.name);
+        if(LayerMask.LayerToName(collision.gameObject.layer) == "Trashcan")
+        {
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
+        }
         if(LayerMask.LayerToName(collision.gameObject.layer) == "Wall")
         {
             Destroy(gameObject);

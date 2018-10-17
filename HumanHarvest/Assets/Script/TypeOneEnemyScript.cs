@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class TypeOneEnemyScript : MonoBehaviour
 {
+    //Difficulty Variables
+    public float secondsToIncreaseDifficulty;
+    int currentTime = 0;
+
 
     //movement variables
     public int startNode;
     public float speed;
+    public float maxSpeed;
     public Transform[] nodeLocations;
     public float nodeTargetRadius;
     public float waitAtNode;
+    public float minWaitAtNode;
     int targetNode;
     Vector2 targetLocation;
     Vector2 targetDirection;
@@ -22,6 +28,7 @@ public class TypeOneEnemyScript : MonoBehaviour
     //Shooting Variables
     public float fireRadius;
     public float cooldownTime;
+    public float minCoolDownTime;
     public float closestDistanceToPlayer;
     public float shouldNotChaseDistance;
 
@@ -70,6 +77,8 @@ public class TypeOneEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        IncreaseDifficulty();
+
 
         exclamationPrefab.transform.position = transform.position;
         questionPrefab.transform.position = transform.position;
@@ -111,6 +120,31 @@ public class TypeOneEnemyScript : MonoBehaviour
             exclamationSpriteRenderer.enabled = false;
             SeekingRender();
             MoveToNoise();
+        }
+    }
+
+    void IncreaseDifficulty()
+    {
+        if (currentTime == (int)RoundManagerScript.code.currentTime)
+            return;
+        if((int)RoundManagerScript.code.currentTime % secondsToIncreaseDifficulty == 0)
+        {
+            currentTime = (int)RoundManagerScript.code.currentTime;
+            Debug.Log("IncreasedDifficulty");
+            if (speed > maxSpeed)
+            {
+                speed -= 0.5f;
+            }
+
+            if(cooldownTime > minCoolDownTime)
+            {
+                cooldownTime -= .05f;
+            }
+            
+            if(waitAtNode > minWaitAtNode)
+            {
+                waitAtNode -= 0.2f;
+            }
         }
     }
 
@@ -219,7 +253,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         //get noise position then move towards that
         //if seen change to move to noise
         //if nothing seen movetosound is false and pick closest patrol path.
-        Debug.Log("I HEARD SOMETHING");
+        //Debug.Log("I HEARD SOMETHING");
         targetLocation = lastHeardNoisePos;
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
         if (targetDirection.magnitude < nodeTargetRadius)

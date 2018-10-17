@@ -29,7 +29,7 @@ public class RoundManagerScript : MonoBehaviour {
     public float levelTimer;
 
     int score = 0;
-    float currentTime;
+    public float currentTime;
 
     //UI variables
     public Text scoreText;

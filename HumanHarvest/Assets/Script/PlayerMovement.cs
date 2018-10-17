@@ -169,6 +169,15 @@ public class PlayerMovement : MonoBehaviour {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 1);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Trashcan")
+        {
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
 

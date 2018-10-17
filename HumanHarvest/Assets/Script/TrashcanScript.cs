@@ -46,7 +46,7 @@ public class TrashcanScript : MonoBehaviour
         {
             if(playerListener.ListenForSound())
             {
-                Debug.Log("HIDING");
+                //Debug.Log("HIDING");
                 shouldLookOutTimer = 0;
                 return;
             }

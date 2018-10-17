@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 61091937997229850}
   - component: {fileID: 50282447825032264}
   - component: {fileID: 95118588426825004}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrashcanSpawn
   m_TagString: Trashcan
   m_Icon: {fileID: 0}

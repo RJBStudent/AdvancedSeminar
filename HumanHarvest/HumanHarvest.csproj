@@ -317,6 +317,7 @@
     <Compile Include="Assets\Script\ScoreManagerScript.cs" />
     <Compile Include="Assets\Script\TrashcanScript.cs" />
     <Compile Include="Assets\Script\TypeOneEnemyScript.cs" />
+    <Compile Include="Assets\Script\TypeTwoEnemyScript.cs" />
     <Compile Include="Assets\Script\VisionScript.cs" />
   </ItemGroup>
   <ItemGroup>
