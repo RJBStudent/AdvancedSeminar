@@ -232,7 +232,6 @@ public class TypeOneEnemyScript : MonoBehaviour
         if (targetDirection.magnitude < nodeTargetRadius && !isPatrolingOnNode)
         {
             StartCoroutine(patrolOnNode());
-
         }
         if (isPatrolingOnNode)
         {
@@ -240,6 +239,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         }
         else
         {
+
             targetDirection.Normalize();
 
             CheckWall();
