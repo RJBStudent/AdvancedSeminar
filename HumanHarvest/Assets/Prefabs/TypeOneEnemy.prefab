@@ -168,6 +168,8 @@ MonoBehaviour:
   minCoolDownTime: 0.3
   closestDistanceToPlayer: 0
   shouldNotChaseDistance: 0
+  predictionRate: 3
+  predictionMin: 1
   thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
   playerAndWallLayerMask:
     serializedVersion: 2

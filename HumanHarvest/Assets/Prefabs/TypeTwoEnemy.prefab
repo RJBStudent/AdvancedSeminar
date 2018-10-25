@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 1137480981684912}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 0}
   m_Children: []
   m_Father: {fileID: 4032278557373350}
   m_RootOrder: 2
@@ -148,7 +148,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   raycastAmmount: 10
-  distanceBetweenRaycasts: 4
+  distanceBetweenRaycasts: 3
   viewDistance: 10
 --- !u!114 &114177478381107504
 MonoBehaviour:
@@ -161,22 +161,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c329014837f3e47b59f230600f6615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondsToIncreaseDifficulty: 0
   directionNodes:
   - 90
   - 180
   - 270
   waitAtDirection: 2
-  minWaitAtDirection: 0
+  minWaitAtDirection: 0.5
   rotateSpeed: 50
-  maxRotateSpeed: 0
+  maxRotateSpeed: 15
   timeToNotice: 2
-  minTimeToNotice: 0
-  cooldownTime: 0
-  maxCooldownTime: 0
+  minTimeToNotice: 0.5
+  cooldownTime: 3
+  maxCooldownTime: 1
+  bulletSpeed: 6
+  minBulletSpeed: 4
+  predictionRate: 3
+  predictionMin: 1
   thePlayerTransform: {fileID: 0}
   xBounds: 8
   yBounds: 3
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 1440940658657820, guid: 018d9ef68cf01f94891751d7abd4a6c9,
+    type: 2}
 --- !u!212 &212515423002892788
 SpriteRenderer:
   m_ObjectHideFlags: 1

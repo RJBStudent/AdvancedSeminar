@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float playerSpeed;
 
@@ -23,26 +24,29 @@ public class PlayerMovement : MonoBehaviour {
     bool inUFOArea = false;
     bool canInteract = false;
     bool stillPenalty = false;
-    
+    bool searching = false;
+
     GameObject InteractableObject;
     Animator anim;
 
     public bool cantGetHit;
-    
-    
+
+    float interactTime = 0f;
+    public float requiredInteractTime = 2f;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         InteractButton.SetActive(false);
         anim = GetComponent<Animator>();
 
         healthText.text = "x" + health;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        if(health <= 0)
+        if (health <= 0)
         {
             //Smoothly Send Coroutine to UI manager that says game over
             //SceneManager.LoadScene("GameEndScene");
@@ -55,15 +59,15 @@ public class PlayerMovement : MonoBehaviour {
 
             return;
         }
-            
+
         RecieveInput();
         Interact();
         PlayerMove();
-       
+
     }
 
     void RecieveInput()
-    {  
+    {
         xDirection = Input.GetAxis("Horizontal");
         yDirection = Input.GetAxis("Vertical");
 
@@ -76,15 +80,15 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
-                lastX = xDirection;
-                lastY = yDirection;
-                anim.SetBool("Move", true);
+            lastX = xDirection;
+            lastY = yDirection;
+            anim.SetBool("Move", true);
         }
         anim.SetFloat("VelocityY", yDirection);
         anim.SetFloat("VelocityX", xDirection);
 
         noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 2;
-        
+
     }
 
     void PlayerMove()
@@ -94,59 +98,86 @@ public class PlayerMovement : MonoBehaviour {
 
     void Interact()
     {
-        if(canInteract == true)
+        if (canInteract == true)
         {
-            if (Input.GetButtonDown("Interact"))
+            if (Input.GetButton("Interact"))
             {
                 Debug.Log("Interact");
-                if(InteractableObject == null)
+                if (InteractableObject == null)
                 {
                     Debug.Log("NOTHING");
                     return;
                 }
                 else if (InteractableObject.tag == "Trashcan" && !hasHuman)
                 {
-                    if (!InteractableObject.GetComponent<TrashcanScript>().HasHuman)
+                    if (searching)
                     {
-                        gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
-                        //canInteract = false;
-                        //InteractButton.SetActive(false);
-                        StartCoroutine(TrashcanMiss());
+                        interactTime += Time.deltaTime;
                     }
                     else
-                    { 
-                        hasHuman = true;
-                        canInteract = false;
-                        InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
-                        InteractButton.SetActive(false);
-                        
-                        anim.SetBool("Has Human", true);
+                    {
+                        interactTime = 0;
+                    }
+                    searching = true;
+
+                    if (interactTime >= requiredInteractTime)
+                    {
+                        if (!InteractableObject.GetComponent<TrashcanScript>().HasHuman)
+                        {
+                            gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+
+                            StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
+                        }
+                        else
+                        {
+                            hasHuman = true;
+                            canInteract = false;
+                            InteractableObject.GetComponent<TrashcanScript>().HasHuman = false;
+                            InteractButton.SetActive(false);
+
+                            anim.SetBool("Has Human", true);
+                        }
                     }
                 }
                 else if (hasHuman)
                 {
-                    Debug.Log("HasHuman");
-                    if (inUFOArea)
+                    if (searching)
                     {
-                        //Destroy(InteractableObject);
-                        hasHuman = false;
-                        anim.SetBool("Has Human", false);
-                        InteractButton.SetActive(false);
-                        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
-                        RoundManagerScript.code.RemoveHuman();
-                        RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.HUMAN);
+                        interactTime += Time.deltaTime;
                     }
+                    else
+                    {
+                        interactTime = 0;
+                    }
+                    searching = true;
 
+                    if (interactTime >= requiredInteractTime)
+                    {
+                        if (inUFOArea)
+                        {
+                            //Destroy(InteractableObject);
+                            hasHuman = false;
+                            anim.SetBool("Has Human", false);
+                            InteractButton.SetActive(false);
+                            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+                            RoundManagerScript.code.RemoveHuman();
+                            RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.HUMAN);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                searching = false;
             }
         }
     }
 
     public void playerHit()
     {
-        if(!cantGetHit)
+        if (!cantGetHit)
         {
-            if(hasHuman)
+            if (hasHuman)
             {
                 GameObject newHuman = (GameObject)Instantiate(humanPrefab, transform.position, Quaternion.identity, GameObject.Find("RoundManager").transform);
                 Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newHuman.GetComponent<Collider2D>());
@@ -183,14 +214,14 @@ public class PlayerMovement : MonoBehaviour {
 
         if (collision.gameObject.tag == "Trashcan")
         {
-            if(!hasHuman)
+            if (!hasHuman)
             {
                 canInteract = true;
                 InteractableObject = collision.gameObject;
                 InteractButton.SetActive(true);
             }
-               
-           
+
+
         }
         if (collision.gameObject.tag == "UFO_Area")
         {
@@ -207,12 +238,12 @@ public class PlayerMovement : MonoBehaviour {
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Trashcan")
-        {            
-                canInteract = false;
-                InteractableObject = null;
-                InteractButton.SetActive(false);
+        {
+            canInteract = false;
+            InteractableObject = null;
+            InteractButton.SetActive(false);
         }
-        if(collision.gameObject.tag == "UFO_Area")
+        if (collision.gameObject.tag == "UFO_Area")
         {
             inUFOArea = false;
             canInteract = false;

@@ -31,6 +31,8 @@ public class TypeOneEnemyScript : MonoBehaviour
     public float minCoolDownTime;
     public float closestDistanceToPlayer;
     public float shouldNotChaseDistance;
+    public float predictionRate;
+    public float predictionMin;
 
     //Tests for movement
     bool canHear = false;
@@ -43,7 +45,7 @@ public class TypeOneEnemyScript : MonoBehaviour
     public GameObject thePlayer;
     public LayerMask playerAndWallLayerMask;
     public LayerMask wallMask;
-
+    Rigidbody2D playerRigidbody;
 
     public float xBounds;
     public float yBounds;
@@ -72,6 +74,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         questionSpriteRenderer = questionPrefab.GetComponent<SpriteRenderer>();
         exclamationSpriteRenderer.enabled = false;
         questionSpriteRenderer.enabled = false;
+        playerRigidbody = thePlayer.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -130,7 +133,6 @@ public class TypeOneEnemyScript : MonoBehaviour
         if((int)RoundManagerScript.code.currentTime % secondsToIncreaseDifficulty == 0)
         {
             currentTime = (int)RoundManagerScript.code.currentTime;
-            Debug.Log("IncreasedDifficulty");
             if (speed > maxSpeed)
             {
                 speed -= 0.5f;
@@ -144,6 +146,10 @@ public class TypeOneEnemyScript : MonoBehaviour
             if(waitAtNode > minWaitAtNode)
             {
                 waitAtNode -= 0.2f;
+            }
+            if(predictionRate > predictionMin)
+            {
+                predictionRate -= 0.2f;
             }
         }
     }
@@ -239,7 +245,6 @@ public class TypeOneEnemyScript : MonoBehaviour
         }
         else
         {
-
             targetDirection.Normalize();
 
             CheckWall();
@@ -292,8 +297,9 @@ public class TypeOneEnemyScript : MonoBehaviour
         //Fire
         shootingAtPlayer = true;
         yield return new WaitForSeconds(cooldownTime);
+        Vector2 target = new Vector2(targetDirection.x + (playerRigidbody.velocity.x/ predictionRate), targetDirection.y + (playerRigidbody.velocity.y/ predictionRate));
         GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
-        bullet.GetComponent<BulletScript>().fireDirection = targetDirection;
+        bullet.GetComponent<BulletScript>().fireDirection = target ;
         targetLocation = thePlayer.transform.position;
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
 
