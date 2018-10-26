@@ -50,6 +50,8 @@ public class TypeOneEnemyScript : MonoBehaviour
     public float xBounds;
     public float yBounds;
 
+    ParticleSystem shootEffect;
+
 
 
     //Prefabs
@@ -75,6 +77,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         exclamationSpriteRenderer.enabled = false;
         questionSpriteRenderer.enabled = false;
         playerRigidbody = thePlayer.gameObject.GetComponent<Rigidbody2D>();
+        shootEffect = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -302,7 +305,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         bullet.GetComponent<BulletScript>().fireDirection = target ;
         targetLocation = thePlayer.transform.position;
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-
+        shootEffect.Play();
         if (targetDirection.magnitude < shouldNotChaseDistance)
         {
             shouldChase = true;

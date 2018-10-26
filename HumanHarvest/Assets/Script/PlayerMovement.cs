@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject InteractButton;
     public GameObject humanPrefab;
+    public Image interactTimeSprite;
 
     public int health = 3;
     public float iFrameTime = 1f;
@@ -28,11 +29,16 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject InteractableObject;
     Animator anim;
+    ParticleSystem runEffect;
+    ParticleSystem.ShapeModule particleShape;
+    ParticleSystem.EmissionModule particleEmission;
 
     public bool cantGetHit;
 
     float interactTime = 0f;
     public float requiredInteractTime = 2f;
+
+
 
     // Use this for initialization
     void Start()
@@ -41,6 +47,12 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
 
         healthText.text = "x" + health;
+        runEffect = GetComponent<ParticleSystem>();
+        particleShape = runEffect.shape;
+        particleEmission = runEffect.emission;
+        runEffect.Play();
+        particleEmission.enabled = false;
+        interactTimeSprite.enabled = false;
     }
 
     // Update is called once per frame
@@ -76,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("LastY", lastY);
             anim.SetFloat("LastX", lastX);
             anim.SetBool("Move", false);
+            particleEmission.enabled = false;
 
         }
         else
@@ -83,10 +96,17 @@ public class PlayerMovement : MonoBehaviour
             lastX = xDirection;
             lastY = yDirection;
             anim.SetBool("Move", true);
+            particleEmission.enabled = true;
         }
         anim.SetFloat("VelocityY", yDirection);
         anim.SetFloat("VelocityX", xDirection);
 
+
+        float currentAngle = Mathf.Atan2(yDirection, xDirection);
+        currentAngle *= Mathf.Rad2Deg;
+
+        particleShape.rotation = new Vector3(currentAngle, -90, 0);
+        
         noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 2;
 
     }
@@ -102,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButton("Interact"))
             {
-                Debug.Log("Interact");
+                //Debug.Log("Interact");
                 if (InteractableObject == null)
                 {
                     Debug.Log("NOTHING");
@@ -113,6 +133,8 @@ public class PlayerMovement : MonoBehaviour
                     if (searching)
                     {
                         interactTime += Time.deltaTime;
+                        interactTimeSprite.enabled = true;
+                        interactTimeSprite.fillAmount = (interactTime / requiredInteractTime);
                     }
                     else
                     {
@@ -125,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
                         if (!InteractableObject.GetComponent<TrashcanScript>().HasHuman)
                         {
                             gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                            interactTimeSprite.enabled = false;
 
                             StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
                         }
@@ -144,10 +167,13 @@ public class PlayerMovement : MonoBehaviour
                     if (searching)
                     {
                         interactTime += Time.deltaTime;
+                        interactTimeSprite.enabled = true;
+                        interactTimeSprite.fillAmount = (interactTime /requiredInteractTime);
                     }
                     else
                     {
                         interactTime = 0;
+                        interactTimeSprite.enabled = false;
                     }
                     searching = true;
 
@@ -169,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 searching = false;
+                interactTimeSprite.enabled = false;
             }
         }
     }
@@ -205,6 +232,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Trashcan")
         {
+            Debug.Log(gameObject.GetComponent<Collider2D>());
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
         }
     }

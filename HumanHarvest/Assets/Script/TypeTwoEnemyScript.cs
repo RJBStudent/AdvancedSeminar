@@ -63,6 +63,8 @@ public class TypeTwoEnemyScript : MonoBehaviour
     SpriteRenderer questionSpriteRenderer;
     SpriteRenderer coneSpriteRenderer;
 
+    ParticleSystem shootEffect;
+
     // Use this for initialization
     void Start()
     {
@@ -81,6 +83,7 @@ public class TypeTwoEnemyScript : MonoBehaviour
         questionSpriteRenderer.enabled = false;
         coneTransform.rotation = Quaternion.Euler(AngleToVector3(currentRotationAngle));
         playerRigidbody = thePlayerTransform.gameObject.GetComponent<Rigidbody2D>();
+        shootEffect = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -235,6 +238,7 @@ public class TypeTwoEnemyScript : MonoBehaviour
             Vector2 target = new Vector2(targetLocation.x + (playerRigidbody.velocity.x / predictionRate), targetLocation.y + (playerRigidbody.velocity.y/ predictionRate));
             bullet.GetComponent<BulletScript>().fireDirection = target.normalized;
             bullet.GetComponent<BulletScript>().speed = bulletSpeed;
+            shootEffect.Play();
             canShoot = true;
         }
     }
