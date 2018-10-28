@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem runEffect;
     ParticleSystem.ShapeModule particleShape;
     ParticleSystem.EmissionModule particleEmission;
+    public Animator gleamAnimator;
+    SpriteRenderer gleamSprite;
 
     public bool cantGetHit;
 
@@ -53,10 +55,12 @@ public class PlayerMovement : MonoBehaviour
         runEffect.Play();
         particleEmission.enabled = false;
         interactTimeSprite.enabled = false;
+        gleamSprite = gleamAnimator.gameObject.GetComponent<SpriteRenderer>();
+        gleamSprite.enabled = false;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (health <= 0)
         {
@@ -64,17 +68,15 @@ public class PlayerMovement : MonoBehaviour
             //SceneManager.LoadScene("GameEndScene");
             RoundManagerScript.code.GameEndTransition();
         }
-        if (stillPenalty)
-        {
-            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            noiseLevel = 2;
-
-            return;
-        }
 
         RecieveInput();
         Interact();
         PlayerMove();
+
+        if (stillPenalty)
+        {
+            noiseLevel = 2f;
+        }
 
     }
 
@@ -122,7 +124,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButton("Interact"))
             {
-                //Debug.Log("Interact");
                 if (InteractableObject == null)
                 {
                     Debug.Log("NOTHING");
@@ -146,10 +147,10 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if (!InteractableObject.GetComponent<TrashcanScript>().HasHuman)
                         {
-                            gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                           // gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
                             interactTimeSprite.enabled = false;
 
-                            StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
+                           StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
                         }
                         else
                         {
@@ -159,6 +160,8 @@ public class PlayerMovement : MonoBehaviour
                             InteractButton.SetActive(false);
 
                             anim.SetBool("Has Human", true);
+                            gleamSprite.enabled = true;
+                            gleamAnimator.SetTrigger("PLAY");
                         }
                     }
                 }
@@ -184,19 +187,26 @@ public class PlayerMovement : MonoBehaviour
                             //Destroy(InteractableObject);
                             hasHuman = false;
                             anim.SetBool("Has Human", false);
-                            InteractButton.SetActive(false);
-                            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+                            InteractButton.SetActive(false);              
                             RoundManagerScript.code.RemoveHuman();
                             RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.HUMAN);
+                            canInteract = false;
                         }
                     }
                 }
             }
             else
             {
+                interactTime = 0;
                 searching = false;
                 interactTimeSprite.enabled = false;
             }
+        }
+        else
+        {
+            interactTime = 0;
+            searching = false;
+            interactTimeSprite.enabled = false;
         }
     }
 
@@ -232,7 +242,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Trashcan")
         {
-            Debug.Log(gameObject.GetComponent<Collider2D>());
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
         }
     }
@@ -287,17 +296,13 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator TrashcanMiss()
     {
         stillPenalty = true;
-        yield return new WaitForSeconds(3f);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+        yield return new WaitForSeconds(.5f);
         stillPenalty = false;
         canInteract = false;
         InteractableObject = null;
-        if (!hasHuman)
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
-        }
-        else
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
-        }
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+      
+
     }
 }
