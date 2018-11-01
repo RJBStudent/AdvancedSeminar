@@ -27,6 +27,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1675304217678232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4456893555748358}
+  - component: {fileID: 212619248820328668}
+  m_Layer: 0
+  m_Name: ViewCone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1856908043814964
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,13 +100,27 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1856908043814964}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4201920491818302}
   - {fileID: 4620137105990400}
+  - {fileID: 4456893555748358}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4456893555748358
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675304217678232}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4243863229054158}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4620137105990400
 Transform:
@@ -116,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be783bdb4864b940bc018962de3e22a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
+  thePlayer: {fileID: 0}
   lMask:
     serializedVersion: 2
     m_Bits: 768
@@ -134,9 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba3fe391bed40594d9efb31fde2a9a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listenDistance: 20
-  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
-  listenVolume: 0.75
+  listenDistance: 15
+  thePlayer: {fileID: 0}
+  listenVolume: 0.25
 --- !u!114 &114690856657476670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,9 +179,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsToIncreaseDifficulty: 30
-  startNode: 0
+  startNode: 8
   speed: 12
-  maxSpeed: 7
+  maxSpeed: 5
   nodeLocations:
   - {fileID: 0}
   - {fileID: 0}
@@ -162,17 +192,24 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nodeTargetRadius: 0
-  waitAtNode: 0
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nodeTargetRadius: 1
+  waitAtNode: 2
   minWaitAtNode: 0.5
-  fireRadius: 0
-  cooldownTime: 0
-  minCoolDownTime: 0.3
-  closestDistanceToPlayer: 0
-  shouldNotChaseDistance: 0
+  fireRadius: 6
+  cooldownTime: 0.5
+  minCoolDownTime: 0.1
+  closestDistanceToPlayer: 3
+  shouldNotChaseDistance: 10
   predictionRate: 3
   predictionMin: 1
-  thePlayer: {fileID: 1580223928321260, guid: 2191be2cde2a9a748b4bb4ffb5b0b98f, type: 2}
+  thePlayer: {fileID: 0}
   playerAndWallLayerMask:
     serializedVersion: 2
     m_Bits: 768
@@ -4860,6 +4897,52 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.14, y: 0.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!212 &212619248820328668
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675304217678232}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 1f36c355b9521ae4e912f6729ff41720, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4745098}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

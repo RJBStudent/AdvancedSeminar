@@ -58,9 +58,11 @@ public class TypeOneEnemyScript : MonoBehaviour
     public GameObject bulletPrefab;
     GameObject exclamationPrefab;
     GameObject questionPrefab;
+    Transform coneTransform;
 
     SpriteRenderer exclamationSpriteRenderer;
     SpriteRenderer questionSpriteRenderer;
+    SpriteRenderer coneSpriteRenderer;
 
 
     // Use this for initialization
@@ -72,8 +74,10 @@ public class TypeOneEnemyScript : MonoBehaviour
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
         exclamationPrefab = transform.GetChild(1).gameObject;
         questionPrefab = transform.GetChild(0).gameObject;
+        coneTransform = transform.GetChild(2).gameObject.transform;
         exclamationSpriteRenderer = exclamationPrefab.GetComponent<SpriteRenderer>();
         questionSpriteRenderer = questionPrefab.GetComponent<SpriteRenderer>();
+        coneSpriteRenderer = coneTransform.gameObject.GetComponent<SpriteRenderer>();
         exclamationSpriteRenderer.enabled = false;
         questionSpriteRenderer.enabled = false;
         playerRigidbody = thePlayer.gameObject.GetComponent<Rigidbody2D>();
@@ -96,6 +100,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         }
         canHear = GetComponent<NoiseListenerScript>().ListenForSound();
         canSee = GetComponent<VisionScript>().Vision(targetDirection.normalized);
+
         if (canSee)
         {
             shouldChase = true;
@@ -127,6 +132,9 @@ public class TypeOneEnemyScript : MonoBehaviour
             SeekingRender();
             MoveToNoise();
         }
+        float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
+        currentAngle *= Mathf.Rad2Deg;
+        coneTransform.rotation = Quaternion.Euler(0, 0, currentAngle);
     }
 
     void IncreaseDifficulty()
