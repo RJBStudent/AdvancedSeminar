@@ -306,7 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AnimationBehaviorScript.cs" />
+    <Compile Include="Assets\Script\AnimationBehaviorScript.cs" />
     <Compile Include="Assets\Script\BulletScript.cs" />
     <Compile Include="Assets\Script\ButtonScripts.cs" />
     <Compile Include="Assets\Script\EndSceneScript.cs" />
@@ -317,6 +317,7 @@
     <Compile Include="Assets\Script\ScoreClass.cs" />
     <Compile Include="Assets\Script\ScoreManagerScript.cs" />
     <Compile Include="Assets\Script\TrashcanScript.cs" />
+    <Compile Include="Assets\Script\TutorialScript.cs" />
     <Compile Include="Assets\Script\TypeOneEnemyScript.cs" />
     <Compile Include="Assets\Script\TypeTwoEnemyScript.cs" />
     <Compile Include="Assets\Script\VisionScript.cs" />

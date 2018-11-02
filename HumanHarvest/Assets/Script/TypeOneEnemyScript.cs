@@ -277,7 +277,6 @@ public class TypeOneEnemyScript : MonoBehaviour
             //LookBothWays
             StartCoroutine(patrolOnNode());
             //Return to node path
-            Debug.Log("Nothing's here");
             moveToSound = false;
             returningToNodePatrol = true;
             return;

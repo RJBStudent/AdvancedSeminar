@@ -8,7 +8,7 @@ public class ButtonScripts : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("TutorialScene");
     }
 
     public void ExitGame()
