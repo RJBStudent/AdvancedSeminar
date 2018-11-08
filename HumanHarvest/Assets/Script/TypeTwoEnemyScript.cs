@@ -65,6 +65,9 @@ public class TypeTwoEnemyScript : MonoBehaviour
 
     ParticleSystem shootEffect;
 
+    [SerializeField]
+    private AudioSource shootSound;
+
     // Use this for initialization
     void Start()
     {
@@ -239,6 +242,7 @@ public class TypeTwoEnemyScript : MonoBehaviour
             bullet.GetComponent<BulletScript>().fireDirection = target.normalized;
             bullet.GetComponent<BulletScript>().speed = bulletSpeed;
             shootEffect.Play();
+            shootSound.Play();
             canShoot = true;
         }
     }

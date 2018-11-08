@@ -52,7 +52,8 @@ public class TypeOneEnemyScript : MonoBehaviour
 
     ParticleSystem shootEffect;
 
-
+    [SerializeField]
+    private AudioSource shootSound;
 
     //Prefabs
     public GameObject bulletPrefab;
@@ -313,6 +314,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         targetLocation = thePlayer.transform.position;
         targetDirection = targetLocation - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
         shootEffect.Play();
+        shootSound.Play();
         if (targetDirection.magnitude < shouldNotChaseDistance)
         {
             shouldChase = true;

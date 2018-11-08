@@ -11,7 +11,8 @@ public class RoundManagerScript : MonoBehaviour {
     public enum ScoreType
     {
         INVALID = 0,
-        HUMAN = 1
+        HUMAN = 1,
+        COLLECTABLE = 2
     }
 
     //human spawning variables
@@ -20,6 +21,9 @@ public class RoundManagerScript : MonoBehaviour {
     public int maxHumans = 4;
     public float spawnRadius;
     public GameObject[] humanSpawnPoints;
+
+    public bool collectableOnScreen;
+    public GameObject collectablePrefab;
 
     int currentHumanOnScreenCount;
 
@@ -35,6 +39,7 @@ public class RoundManagerScript : MonoBehaviour {
     public Text scoreText;
     public Text timerText;
     public Text gameOverText;
+    
 
     // Use this for initialization
     void Start ()
@@ -50,6 +55,7 @@ public class RoundManagerScript : MonoBehaviour {
 	void FixedUpdate () {
         CheckHumansOnScreen();
         UpdateTimer();
+        CheckCollectable();
 	}
 
     void NewRound()
@@ -57,6 +63,26 @@ public class RoundManagerScript : MonoBehaviour {
         currentHumansHeld = 0;
         currentTime = levelTimer;
         CheckHumansOnScreen();
+    }
+
+    void CheckCollectable()
+    {
+        while(!collectableOnScreen)
+        {
+
+            int newRandom = Random.Range(0, humanSpawnPoints.Length);
+            Transform tempTransform = humanSpawnPoints[newRandom].transform;
+            if (Vector3.Distance(tempTransform.position, thePlayer.transform.position) > spawnRadius)
+            {
+                SpawnCollectable(tempTransform);
+                collectableOnScreen = true;
+            }
+        }
+    }
+
+    void SpawnCollectable(Transform spawnTransform)
+    {
+        GameObject collectable = (GameObject)Instantiate(collectablePrefab, spawnTransform);
     }
 
     void CheckHumansOnScreen()
@@ -103,6 +129,10 @@ public class RoundManagerScript : MonoBehaviour {
                 score += 100;
                 scoreText.text = score.ToString();
                 break;
+            case ScoreType.COLLECTABLE:
+                score += 300;
+                scoreText.text = score.ToString();
+                break;
             case ScoreType.INVALID:
                 Debug.Log("Invalid Score Type; FAILED");
                 break;
@@ -113,6 +143,14 @@ public class RoundManagerScript : MonoBehaviour {
 
     public void GameEndTransition()
     {
+        AudioSource[] allAudioSource;
+
+        allAudioSource = Resources.FindObjectsOfTypeAll(typeof(AudioSource))as AudioSource[];
+        foreach(AudioSource audio in allAudioSource)
+        {
+            audio.Stop();
+        }
+        
         Time.timeScale = 0;
         ScoreManagerScript.code.UpdateHighScores(score, (int)currentTime);
         StartCoroutine(TextTransition());

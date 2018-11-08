@@ -39,7 +39,12 @@ public class PlayerMovement : MonoBehaviour
 
     float interactTime = 0f;
     public float requiredInteractTime = 2f;
-
+    [SerializeField]
+   private AudioSource WalkAudio;
+    public AudioSource HitAudio;
+    public AudioSource HumanGetAudio;
+    public AudioSource HumanInUFOAudio;
+    public AudioSource NoHumanAudio;
 
 
     // Use this for initialization
@@ -65,7 +70,8 @@ public class PlayerMovement : MonoBehaviour
         if (health <= 0)
         {
             //Smoothly Send Coroutine to UI manager that says game over
-            //SceneManager.LoadScene("GameEndScene");
+            WalkAudio.loop = false; 
+            WalkAudio.Stop();
             RoundManagerScript.code.GameEndTransition();
         }
 
@@ -91,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("LastX", lastX);
             anim.SetBool("Move", false);
             particleEmission.enabled = false;
+            WalkAudio.Pause();
 
         }
         else
@@ -99,6 +106,10 @@ public class PlayerMovement : MonoBehaviour
             lastY = yDirection;
             anim.SetBool("Move", true);
             particleEmission.enabled = true;
+            if (!WalkAudio.isPlaying)
+            {
+                WalkAudio.Play();
+            }
         }
         anim.SetFloat("VelocityY", yDirection);
         anim.SetFloat("VelocityX", xDirection);
@@ -110,6 +121,10 @@ public class PlayerMovement : MonoBehaviour
         particleShape.rotation = new Vector3(currentAngle, -90, 0);
         
         noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 2;
+        float pitchAndVolumeNoiseLevel = (Mathf.Abs(xDirection) >= Mathf.Abs(yDirection)) ? Mathf.Abs(xDirection) : Mathf.Abs(yDirection);
+        runEffect.startSpeed = (pitchAndVolumeNoiseLevel)*4;
+        WalkAudio.pitch = pitchAndVolumeNoiseLevel;
+        WalkAudio.volume = pitchAndVolumeNoiseLevel;
 
     }
 
@@ -126,7 +141,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (InteractableObject == null)
                 {
-                    Debug.Log("NOTHING");
                     return;
                 }
                 else if (InteractableObject.tag == "Trashcan" && !hasHuman)
@@ -149,8 +163,9 @@ public class PlayerMovement : MonoBehaviour
                         {
                            // gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
                             interactTimeSprite.enabled = false;
+                            interactTime = 0;
 
-                           StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
+                            StartCoroutine(TrashcanMiss());       //uncomment if it doenst work
                         }
                         else
                         {
@@ -162,6 +177,8 @@ public class PlayerMovement : MonoBehaviour
                             anim.SetBool("Has Human", true);
                             gleamSprite.enabled = true;
                             gleamAnimator.SetTrigger("PLAY");
+                            HumanGetAudio.Play();
+                            interactTime = 0;
                         }
                     }
                 }
@@ -189,8 +206,10 @@ public class PlayerMovement : MonoBehaviour
                             anim.SetBool("Has Human", false);
                             InteractButton.SetActive(false);              
                             RoundManagerScript.code.RemoveHuman();
+                            HumanInUFOAudio.Play();
                             RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.HUMAN);
                             canInteract = false;
+                            interactTime = 0;
                         }
                     }
                 }
@@ -219,8 +238,7 @@ public class PlayerMovement : MonoBehaviour
                 GameObject newHuman = (GameObject)Instantiate(humanPrefab, transform.position, Quaternion.identity, GameObject.Find("RoundManager").transform);
                 Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newHuman.GetComponent<Collider2D>());
                 hasHuman = false;
-                anim.SetBool("Has Human", false);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+                anim.SetBool("Has Human", false);   
             }
             cantGetHit = true;
             StartCoroutine(IFrames());
@@ -232,6 +250,7 @@ public class PlayerMovement : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 0.5f);
         health--;
         healthText.text = "x" + health;
+        HitAudio.Play();
         yield return new WaitForSeconds(iFrameTime);
         cantGetHit = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(gameObject.GetComponent<SpriteRenderer>().color.r, gameObject.GetComponent<SpriteRenderer>().color.g, gameObject.GetComponent<SpriteRenderer>().color.b, 1);
@@ -243,6 +262,14 @@ public class PlayerMovement : MonoBehaviour
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Trashcan")
         {
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
+        }
+
+        if (collision.gameObject.tag == "Collectable")
+        {
+            Destroy(collision.gameObject);
+            RoundManagerScript.code.collectableOnScreen = false;
+            RoundManagerScript.code.AddScore(RoundManagerScript.ScoreType.COLLECTABLE);
+            HumanGetAudio.Play();
         }
     }
 
@@ -271,7 +298,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Trashcan")
@@ -296,7 +322,9 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator TrashcanMiss()
     {
         stillPenalty = true;
+        canInteract = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+        NoHumanAudio.Play();
         yield return new WaitForSeconds(.5f);
         stillPenalty = false;
         canInteract = false;
