@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public int health = 3;
     public float iFrameTime = 1f;
     public Text healthText;
+    public Image hasHumanImage;
 
     float xDirection, yDirection;
     float lastX, lastY;
@@ -62,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
         interactTimeSprite.enabled = false;
         gleamSprite = gleamAnimator.gameObject.GetComponent<SpriteRenderer>();
         gleamSprite.enabled = false;
+        hasHumanImage.enabled = false;
     }
 
     // Update is called once per frame
@@ -119,8 +121,8 @@ public class PlayerMovement : MonoBehaviour
         currentAngle *= Mathf.Rad2Deg;
 
         particleShape.rotation = new Vector3(currentAngle, -90, 0);
-        
-        noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 2;
+
+        noiseLevel = /*0;*/(Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 3;
         float pitchAndVolumeNoiseLevel = (Mathf.Abs(xDirection) >= Mathf.Abs(yDirection)) ? Mathf.Abs(xDirection) : Mathf.Abs(yDirection);
         runEffect.startSpeed = (pitchAndVolumeNoiseLevel)*4;
         WalkAudio.pitch = pitchAndVolumeNoiseLevel;
@@ -175,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
                             InteractButton.SetActive(false);
 
                             anim.SetBool("Has Human", true);
+                            hasHumanImage.enabled = true;
                             gleamSprite.enabled = true;
                             gleamAnimator.SetTrigger("PLAY");
                             HumanGetAudio.Play();
@@ -204,6 +207,7 @@ public class PlayerMovement : MonoBehaviour
                             //Destroy(InteractableObject);
                             hasHuman = false;
                             anim.SetBool("Has Human", false);
+                            hasHumanImage.enabled = false;
                             InteractButton.SetActive(false);              
                             RoundManagerScript.code.RemoveHuman();
                             HumanInUFOAudio.Play();
@@ -238,7 +242,8 @@ public class PlayerMovement : MonoBehaviour
                 GameObject newHuman = (GameObject)Instantiate(humanPrefab, transform.position, Quaternion.identity, GameObject.Find("RoundManager").transform);
                 Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newHuman.GetComponent<Collider2D>());
                 hasHuman = false;
-                anim.SetBool("Has Human", false);   
+                anim.SetBool("Has Human", false);
+                hasHumanImage.enabled = false;
             }
             cantGetHit = true;
             StartCoroutine(IFrames());

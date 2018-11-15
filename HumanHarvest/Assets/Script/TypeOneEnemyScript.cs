@@ -333,7 +333,7 @@ public class TypeOneEnemyScript : MonoBehaviour
         {
             float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
             currentAngle *= Mathf.Rad2Deg;
-            currentAngle += i * 25;
+            currentAngle += i * 15;
             currentAngle *= Mathf.Deg2Rad;
             newTarget = new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle));
 
