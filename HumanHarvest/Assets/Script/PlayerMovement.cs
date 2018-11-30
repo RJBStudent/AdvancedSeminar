@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     bool canInteract = false;
     bool stillPenalty = false;
     bool searching = false;
+    
 
     GameObject InteractableObject;
     Animator anim;
@@ -47,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource HumanInUFOAudio;
     public AudioSource NoHumanAudio;
 
+    public GameObject TrashNoisePrefab;
+    public RectTransform NoiseVisualizer;
 
     // Use this for initialization
     void Start()
@@ -85,7 +88,24 @@ public class PlayerMovement : MonoBehaviour
         {
             noiseLevel = 2f;
         }
+        VisualizeNoise();
+    }
 
+    void VisualizeNoise()
+    {
+        float noiseVisualValue = noiseLevel;
+        if(noiseVisualValue > 1f)
+        {
+            noiseVisualValue = 1f;
+        }
+
+        if(noiseVisualValue < 0.05f)
+        {
+            noiseVisualValue = 0.05f;
+        }
+
+
+        NoiseVisualizer.localScale = new Vector3(1, noiseVisualValue, 1);
     }
 
     void RecieveInput()
@@ -122,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
         particleShape.rotation = new Vector3(currentAngle, -90, 0);
 
-        noiseLevel = /*0;*/(Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 3;
+        noiseLevel = (Mathf.Abs(xDirection) + Mathf.Abs(yDirection)) / 3;
         float pitchAndVolumeNoiseLevel = (Mathf.Abs(xDirection) >= Mathf.Abs(yDirection)) ? Mathf.Abs(xDirection) : Mathf.Abs(yDirection);
         runEffect.startSpeed = (pitchAndVolumeNoiseLevel)*4;
         WalkAudio.pitch = pitchAndVolumeNoiseLevel;
@@ -329,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
         stillPenalty = true;
         canInteract = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+        GameObject tempNoise = (GameObject)Instantiate(TrashNoisePrefab, InteractableObject.transform);
         NoHumanAudio.Play();
         yield return new WaitForSeconds(.5f);
         stillPenalty = false;

@@ -133,6 +133,7 @@ public class TypeOneEnemyScript : MonoBehaviour
             SeekingRender();
             MoveToNoise();
         }
+        
         float currentAngle = Mathf.Atan2(targetDirection.y, targetDirection.x);
         currentAngle *= Mathf.Rad2Deg;
         coneTransform.rotation = Quaternion.Euler(0, 0, currentAngle);

@@ -309,6 +309,7 @@
     <Compile Include="Assets\Script\AnimationBehaviorScript.cs" />
     <Compile Include="Assets\Script\BulletScript.cs" />
     <Compile Include="Assets\Script\ButtonScripts.cs" />
+    <Compile Include="Assets\Script\DestroyScript.cs" />
     <Compile Include="Assets\Script\EndSceneScript.cs" />
     <Compile Include="Assets\Script\HumanScript.cs" />
     <Compile Include="Assets\Script\NoiseListenerScript.cs" />
