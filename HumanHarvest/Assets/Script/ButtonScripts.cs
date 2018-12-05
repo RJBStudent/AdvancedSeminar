@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class ButtonScripts : Selectable
+public class ButtonScripts : MonoBehaviour
 {
-    public Selectable button;
+       Animator anim;
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("TutorialScene");
@@ -17,8 +22,8 @@ public class ButtonScripts : Selectable
         Application.Quit();
     }
 
-    void SetTrigger()
+    public void SetAnim()
     {
-        if (button)
+        anim.SetBool("shouldAnimate", !anim.GetBool("shouldAnimate"));
     }
 }
