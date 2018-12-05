@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class ButtonScripts : MonoBehaviour
+public class ButtonScripts : Selectable
 {
-
+    public Selectable button;
     public void StartGame()
     {
         SceneManager.LoadScene("TutorialScene");
@@ -14,5 +15,10 @@ public class ButtonScripts : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    void SetTrigger()
+    {
+        if (button)
     }
 }

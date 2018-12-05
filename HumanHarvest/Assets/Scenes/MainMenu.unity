@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 1529548823}
   - component: {fileID: 1529548822}
   - component: {fileID: 1529548821}
+  - component: {fileID: 1529548824}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -800,6 +801,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1529548819}
   m_CullTransparentMesh: 0
+--- !u!95 &1529548824
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1529548819}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 89734a7bab5ff1d46810eeb77767e847, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1677016133
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,6 +830,7 @@ GameObject:
   - component: {fileID: 1677016137}
   - component: {fileID: 1677016136}
   - component: {fileID: 1677016135}
+  - component: {fileID: 1677016138}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -924,6 +944,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677016133}
   m_CullTransparentMesh: 0
+--- !u!95 &1677016138
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1677016133}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d9cb009d287a3e94fa090451bff0f8a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1801753197
 GameObject:
   m_ObjectHideFlags: 0
